@@ -23,8 +23,11 @@ if __name__ == '__main__':
     #Create ID's used to retrieve POV and VClamp data from the database
     pov_id = 11
     vc_id = 12
-
+        
+    #Assigning weights
     args = {'weight':{'start':1,'peak':1,'tail':1,'end':1}}
+    
+    #Initializing sample data
     sampleData = {}
 
     #Create initiator object
