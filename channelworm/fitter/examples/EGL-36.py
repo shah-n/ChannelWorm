@@ -14,25 +14,39 @@ from channelworm.fitter import *
 
 if __name__ == '__main__':
 
-    cwd=os.getcwd()
+    #Make a new subdirectory to place output files if it does not already exist    
+    cwd=os.getcwd() 
     path = cwd+'/egl-36-data/boltzmannFit/'
     if not os.path.exists(path):
         os.makedirs(path)
 
+    #Create ID's used to retrieve POV and VClamp data from the database
     pov_id = 11
     vc_id = 12
 
     args = {'weight':{'start':1,'peak':1,'tail':1,'end':1}}
     sampleData = {}
+
+    #Create initiator object
     myInitiator = initiators.Initiator()
+    
     print 'Sample Data:'
+    
+    #Get POV graph data from database
     sampleData['POV'] = myInitiator.get_graphdata_from_db(pov_id,plot=False)
     print 'POV'
+    
+    #Get VClamp graph data from database
     sampleData['VClamp'] = myInitiator.get_graphdata_from_db(vc_id, plot=False)
     print 'VClamp'
+    
     scale = False
+    
+    #Create bio_params and sim_params dictionary
     bio_params = myInitiator.get_bio_params()
     sim_params = myInitiator.get_sim_params()
+    
+    #Create evaluator object
     myEvaluator = evaluators.Evaluator(sampleData,sim_params,bio_params,scale=scale,args=args)
 
     print 'Scale: %s'%scale
