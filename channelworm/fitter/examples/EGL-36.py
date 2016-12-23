@@ -20,14 +20,14 @@ if __name__ == '__main__':
     if not os.path.exists(path):
         os.makedirs(path)
 
-    #Create ID's used to retrieve POV and VClamp data from the database
+    #Assign ID's used to retrieve graph data from the database
     pov_id = 11
     vc_id = 12
         
-    #Assigning weights
+    #Assign weights
     args = {'weight':{'start':1,'peak':1,'tail':1,'end':1}}
     
-    #Initializing sample data
+    #Initialize sample data
     sampleData = {}
 
     #Create initiator object
@@ -188,14 +188,16 @@ if __name__ == '__main__':
     cell_var = dict(zip(bio_params['cell_params'],bio_params['val_cell_params']))
     print 'best candidate after optimization:'
     print best_candidate_params
-
+ 
+    #Run simulator against the best candidate parameters	
     mySimulator = simulators.Simulator(sim_params,best_candidate_params,cell_var,bio_params['gate_params'],act_fit=True)
     mySimulator = simulators.Simulator(sim_params,best_candidate_params,cell_var,bio_params['gate_params'])
     bestSim = mySimulator.patch_clamp()
-    #
+
+    #Create graphs from the simulator results
     myModelator = modelators.Modelator(bio_params,sim_params)
-    myModelator.compare_plots(sampleData,bestSim,show=True, path=path)
-    myModelator.patch_clamp_plots(bestSim,show=True, path=path)
+    myModelator.compare_plots(sampleData,bestSim,show=False, path=path)
+    myModelator.patch_clamp_plots(bestSim,show=False, path=path)
 
     # # Decreasing voltage steps for pretty gating plots
     sim_params['protocol_steps'] = 1e-3
@@ -203,8 +205,9 @@ if __name__ == '__main__':
     mySimulator = simulators.Simulator(sim_params,best_candidate_params,cell_var,bio_params['gate_params'])
     bestSim = mySimulator.patch_clamp()
     #
+
     myModelator = modelators.Modelator(bio_params,sim_params)
-    myModelator.gating_plots(bestSim, show=True, path=path)
+    myModelator.gating_plots(bestSim, show=False, path=path)
 
     # Generate NeuroML2 file
     contributors = [{'name': 'Vahid Ghayoomi','email': 'vahidghayoomi@gmail.com'}]
