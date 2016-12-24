@@ -196,8 +196,8 @@ if __name__ == '__main__':
 
     #Create graphs from the simulator results
     myModelator = modelators.Modelator(bio_params,sim_params)
-    myModelator.compare_plots(sampleData,bestSim,show=False, path=path)
-    myModelator.patch_clamp_plots(bestSim,show=False, path=path)
+    myModelator.compare_plots(sampleData,bestSim,show=True, path=path)
+    myModelator.patch_clamp_plots(bestSim,show=True, path=path)
 
     # # Decreasing voltage steps for pretty gating plots
     sim_params['protocol_steps'] = 1e-3
@@ -207,7 +207,7 @@ if __name__ == '__main__':
     #
 
     myModelator = modelators.Modelator(bio_params,sim_params)
-    myModelator.gating_plots(bestSim, show=False, path=path)
+    myModelator.gating_plots(bestSim, show=True, path=path)
 
     # Generate NeuroML2 file
     contributors = [{'name': 'Vahid Ghayoomi','email': 'vahidghayoomi@gmail.com'}]
